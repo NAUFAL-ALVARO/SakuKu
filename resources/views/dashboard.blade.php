@@ -5,20 +5,19 @@
 
     <div class="py-6 max-w-5xl mx-auto sm:px-6 space-y-6">
 
-        <div class="grid grid-cols-3 gap-4">
-            <div class="bg-white shadow rounded p-4">
-                <p class="text-gray-500 text-sm">Total Pemasukan</p>
-                <p class="text-green-600 text-xl font-bold">Rp {{ number_format($totalIncome, 0, ',', '.') }}</p>
-            </div>
-            <div class="bg-white shadow rounded p-4">
-                <p class="text-gray-500 text-sm">Total Pengeluaran</p>
-                <p class="text-red-600 text-xl font-bold">Rp {{ number_format($totalExpense, 0, ',', '.') }}</p>
-            </div>
-            <div class="bg-white shadow rounded p-4">
-                <p class="text-gray-500 text-sm">Saldo</p>
-                <p class="text-blue-600 text-xl font-bold">Rp {{ number_format($saldo, 0, ',', '.') }}</p>
-            </div>
-        </div>
+    <div class="grid grid-cols-3 gap-4">
+        <x-card title="Total Pemasukan" variant="income">
+         <p class="text-2xl font-bold">Rp {{ number_format($totalIncome, 0, ',', '.') }}</p>
+        </x-card>
+
+        <x-card title="Total Pengeluaran" variant="expense">
+            <p class="text-2xl font-bold">Rp {{ number_format($totalExpense, 0, ',', '.') }}</p>
+        </x-card>
+
+        <x-card title="Saldo" variant="default">
+            <p class="text-2xl font-bold text-blue-600">Rp {{ number_format($saldo, 0, ',', '.') }}</p>
+        </x-card>
+    </div>
 
         <div class="bg-white shadow rounded p-4">
             <h3 class="font-semibold mb-4">Pemasukan vs Pengeluaran (6 Bulan Terakhir)</h3>
