@@ -24,28 +24,20 @@
             <canvas id="financeChart" height="100"></canvas>
         </div>
 
-        <div class="bg-white shadow rounded p-4">
+       <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
             <h3 class="font-semibold mb-4">Transaksi Terbaru</h3>
-            <table class="w-full text-left">
-                <thead>
-                    <tr class="border-b">
-                        <th class="p-2">Tanggal</th>
-                        <th class="p-2">Kategori</th>
-                        <th class="p-2">Jumlah</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($recentTransactions as $trx)
-                    <tr class="border-b">
-                        <td class="p-2">{{ \Carbon\Carbon::parse($trx->tanggal)->format('d M Y') }}</td>
-                        <td class="p-2">{{ $trx->category->nama_kategori }}</td>
-                        <td class="p-2 {{ $trx->tipe === 'income' ? 'text-green-600' : 'text-red-600' }}">
+
+            <x-table :headers="['Tanggal', 'Kategori', 'Jumlah']">
+                @foreach($recentTransactions as $trx)
+                     <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 text-sm text-gray-600">{{ \Carbon\Carbon::parse($trx->tanggal)->format('d M Y') }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-600">{{ $trx->category->nama_kategori }}</td>
+                        <td class="px-4 py-3 text-sm font-medium {{ $trx->tipe === 'income' ? 'text-emerald-600' : 'text-rose-600' }}">
                             {{ $trx->tipe === 'income' ? '+' : '-' }} Rp {{ number_format($trx->jumlah, 0, ',', '.') }}
                         </td>
                     </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                @endforeach
+            </x-table>
         </div>
     </div>
 
