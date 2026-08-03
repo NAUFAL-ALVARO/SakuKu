@@ -10,33 +10,24 @@
 
         <a href="{{ route('categories.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded mb-4 inline-block">+ Tambah Kategori</a>
 
-        <table class="w-full bg-white shadow rounded mt-4">
-            <thead>
-                <tr class="border-b text-left">
-                    <th class="p-3">Nama Kategori</th>
-                    <th class="p-3">Tipe</th>
-                    <th class="p-3">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($categories as $category)
+        <x-table :headers="['Nama Kategori', 'Tipe', 'Aksi']">
+            @foreach($categories as $category)
                 <tr class="border-b">
-                    <td class="p-3">{{ $category->nama_kategori }}</td>
-                    <td class="p-3">
-                        <span class="px-2 py-1 rounded text-xs {{ $category->tipe === 'income' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
+                    <td class="px-4 py-3 text-sm text-gray-600">{{ $category->nama_kategori }}</td>
+                    <td class="px-4 py-3">
+                        <span class="px-2 py-1 rounded text-xs {{ $category->tipe === 'income' ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700' }}">
                             {{ $category->tipe === 'income' ? 'Pemasukan' : 'Pengeluaran' }}
                         </span>
                     </td>
-                    <td class="p-3">
+                    <td class="px-4 py-3">
                         <a href="{{ route('categories.edit', $category) }}" class="text-blue-600 mr-3">Edit</a>
-                        <form action="{{ route('categories.destroy', $category) }}" method="POST" class="inline" onsubmit="return confirm('Yakin hapus kategori ini?')">
+                        <form action="{{ route('categories.destroy', $category) }}" method="POST" class="inline" onsubmit="return confirm('Yakin hapus?')">
                             @csrf @method('DELETE')
                             <button type="submit" class="text-red-600">Hapus</button>
                         </form>
                     </td>
                 </tr>
-                @endforeach
-            </tbody>
-        </table>
+            @endforeach
+        </x-table>
     </div>
 </x-app-layout>

@@ -15,8 +15,7 @@
                     </ul>
                  </div>
             @endif
-            <label class="block mb-2">Nama Kategori</label>
-            <input type="text" name="nama_kategori" value="{{ $category->nama_kategori }}" class="w-full border rounded p-2 mb-4" required>
+            <x-input label="Nama Kategori" name="nama_kategori" :value="$category->nama_kategori" required />
 
             <label class="block mb-2">Tipe</label>
             <select name="tipe" class="w-full border rounded p-2 mb-4" required>
