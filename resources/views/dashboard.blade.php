@@ -5,13 +5,30 @@
 
     <div class="py-6 max-w-5xl mx-auto sm:px-6 space-y-6">
 
+        <div>
+            <h1 class="text-2xl font-semibold text-gray-800">
+                @php
+                    $hour = now()->format('H');
+                    $greeting = $hour < 11 ? 'Selamat pagi' : ($hour < 15 ? 'Selamat siang' : ($hour < 19 ? 'Selamat sore' : 'Selamat malam'));
+                @endphp
+                {{ $greeting }}, {{ explode(' ', Auth::user()->name)[0] }}! 👋
+            </h1>
+            <p class="text-gray-500 text-sm mt-1">Berikut ringkasan keuangan kamu hari ini.</p>
+        </div>
+
     <div class="grid grid-cols-3 gap-4">
         <x-card title="Total Pemasukan" variant="income">
-         <p class="text-2xl font-bold">Rp {{ number_format($totalIncome, 0, ',', '.') }}</p>
+            <p class="text-2xl font-bold">Rp {{ number_format($totalIncome, 0, ',', '.') }}</p>
+            <p class="text-xs mt-1 {{ $incomeChange >= 0 ? 'text-emerald-600' : 'text-rose-600' }}">
+                {{ $incomeChange >= 0 ? '↑' : '↓' }} {{ abs($incomeChange) }}% dari bulan lalu
+            </p>
         </x-card>
 
         <x-card title="Total Pengeluaran" variant="expense">
             <p class="text-2xl font-bold">Rp {{ number_format($totalExpense, 0, ',', '.') }}</p>
+            <p class="text-xs mt-1 {{ $expenseChange <= 0 ? 'text-emerald-600' : 'text-rose-600' }}">
+                {{ $expenseChange >= 0 ? '↑' : '↓' }} {{ abs($expenseChange) }}% dari bulan lalu
+            </p>
         </x-card>
 
         <x-card title="Saldo" variant="default">

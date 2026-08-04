@@ -16,6 +16,28 @@ class DashboardController extends Controller
         $totalExpense = Transaction::where('user_id', $userId)->where('tipe', 'expense')->sum('jumlah');
         $saldo = $totalIncome - $totalExpense;
 
+        // Perbandingan bulan ini vs bulan lalu
+        $now = Carbon::now();
+        $lastMonth = $now->copy()->subMonth();
+
+        $thisMonthIncome = Transaction::where('user_id', $userId)->where('tipe', 'income')
+            ->whereMonth('tanggal', $now->month)->whereYear('tanggal', $now->year)->sum('jumlah');
+        $lastMonthIncome = Transaction::where('user_id', $userId)->where('tipe', 'income')
+            ->whereMonth('tanggal', $lastMonth->month)->whereYear('tanggal', $lastMonth->year)->sum('jumlah');
+
+        $thisMonthExpense = Transaction::where('user_id', $userId)->where('tipe', 'expense')
+            ->whereMonth('tanggal', $now->month)->whereYear('tanggal', $now->year)->sum('jumlah');
+        $lastMonthExpense = Transaction::where('user_id', $userId)->where('tipe', 'expense')
+            ->whereMonth('tanggal', $lastMonth->month)->whereYear('tanggal', $lastMonth->year)->sum('jumlah');
+
+        $incomeChange = $lastMonthIncome > 0
+            ? round((($thisMonthIncome - $lastMonthIncome) / $lastMonthIncome) * 100)
+            : ($thisMonthIncome > 0 ? 100 : 0);
+
+        $expenseChange = $lastMonthExpense > 0
+            ? round((($thisMonthExpense - $lastMonthExpense) / $lastMonthExpense) * 100)
+            : ($thisMonthExpense > 0 ? 100 : 0);
+
         // Data grafik 6 bulan terakhir
         $chartLabels = [];
         $chartIncome = [];
@@ -47,7 +69,8 @@ class DashboardController extends Controller
         return view('dashboard', compact(
             'totalIncome', 'totalExpense', 'saldo',
             'chartLabels', 'chartIncome', 'chartExpense',
-            'recentTransactions'
+            'recentTransactions',
+            'incomeChange', 'expenseChange'
         ));
     }
 }
