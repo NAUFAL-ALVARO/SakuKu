@@ -37,7 +37,7 @@
             <label class="block mb-2">Deskripsi (opsional)</label>
             <textarea name="deskripsi" class="w-full border rounded p-2 mb-4"></textarea>
 
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
+            <x-primary-button>Simpan</x-primary-button>
         </form>
     </div>
 </x-app-layout>

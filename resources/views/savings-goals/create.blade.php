@@ -24,7 +24,7 @@
             <label class="block mb-2">Tenggat Waktu (opsional)</label>
             <input type="date" name="tenggat_waktu" class="w-full border rounded p-2 mb-4">
 
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
+            <x-primary-button>Simpan</x-primary-button>
         </form>
     </div>
 </x-app-layout>
