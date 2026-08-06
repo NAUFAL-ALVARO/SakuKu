@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="py-6 max-w-md mx-auto sm:px-6">
-        <form action="{{ route('categories.store') }}" method="POST" class="bg-white shadow p-6 rounded" x-data="{ submitting: false }" @submit="submitting = true">
+        <form action="{{ route('categories.store') }}" method="POST" class="bg-white shadow p-6 rounded" x-data="{ loading: false }" @submit="loading = true">
             @csrf
             @if ($errors->any())
                 <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
