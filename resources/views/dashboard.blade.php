@@ -41,21 +41,40 @@
             <canvas id="financeChart" height="100"></canvas>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+    <div class="grid grid-cols-3 gap-4">
+        <div class="col-span-1 bg-white rounded-xl shadow-sm border border-gray-200 p-4">
             <h3 class="font-semibold mb-4">Pengeluaran per Kategori</h3>
             @if($categoryLabels->isEmpty())
                 <p class="text-gray-400 text-sm text-center py-8">Belum ada data pengeluaran</p>
             @else
-                <canvas id="categoryChart" height="200"></canvas>
+                <div class="flex flex-col items-center gap-4">
+                    <div class="w-[140px] h-[140px]">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                    <ul class="w-full space-y-2">
+                        @php $total = $categoryTotals->sum(); @endphp
+                        @foreach($categoryLabels as $i => $label)
+                            <li class="flex items-center justify-between text-xs">
+                                <span class="flex items-center gap-2 text-gray-600 truncate">
+                                    <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: {{ ['#ef4444','#f97316','#eab308','#8b5cf6','#ec4899','#14b8a6'][$i % 6] }}"></span>
+                                    {{ $label }}
+                                </span>
+                                <span class="font-medium text-gray-700 shrink-0 ml-2">
+                                    {{ $total > 0 ? round(($categoryTotals[$i] / $total) * 100) : 0 }}%
+                                </span>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
         </div>
 
-       <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div class="col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-4">
             <h3 class="font-semibold mb-4">Transaksi Terbaru</h3>
 
             <x-table :headers="['Tanggal', 'Kategori', 'Jumlah']">
                 @foreach($recentTransactions as $trx)
-                     <tr class="hover:bg-gray-50">
+                    <tr class="hover:bg-gray-50">
                         <td class="px-4 py-3 text-sm text-gray-600">{{ \Carbon\Carbon::parse($trx->tanggal)->format('d M Y') }}</td>
                         <td class="px-4 py-3 text-sm text-gray-600">{{ $trx->category->nama_kategori }}</td>
                         <td class="px-4 py-3 text-sm font-medium {{ $trx->tipe === 'income' ? 'text-emerald-600' : 'text-rose-600' }}">
@@ -101,21 +120,16 @@
                 labels: {!! json_encode($categoryLabels) !!},
                 datasets: [{
                     data: {!! json_encode($categoryTotals) !!},
-                    backgroundColor: [
-                        'rgba(239, 68, 68, 0.7)',
-                        'rgba(249, 115, 22, 0.7)',
-                        'rgba(234, 179, 8, 0.7)',
-                        'rgba(139, 92, 246, 0.7)',
-                        'rgba(236, 72, 153, 0.7)',
-                        'rgba(20, 184, 166, 0.7)'
-                    ],
+                    backgroundColor: ['#ef4444','#f97316','#eab308','#8b5cf6','#ec4899','#14b8a6'],
                     borderWidth: 0
                 }]
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: true,
+                cutout: '65%',
                 plugins: {
-                    legend: { position: 'bottom' }
+                    legend: { display: false }
                 }
             }
         });
