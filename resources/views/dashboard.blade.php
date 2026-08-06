@@ -41,6 +41,15 @@
             <canvas id="financeChart" height="100"></canvas>
         </div>
 
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+            <h3 class="font-semibold mb-4">Pengeluaran per Kategori</h3>
+            @if($categoryLabels->isEmpty())
+                <p class="text-gray-400 text-sm text-center py-8">Belum ada data pengeluaran</p>
+            @else
+                <canvas id="categoryChart" height="200"></canvas>
+            @endif
+        </div>
+
        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
             <h3 class="font-semibold mb-4">Transaksi Terbaru</h3>
 
@@ -83,5 +92,33 @@
                 plugins: { legend: { position: 'top' } }
             }
         });
+
+        @if($categoryLabels->isNotEmpty())
+        const ctxCategory = document.getElementById('categoryChart');
+        new Chart(ctxCategory, {
+            type: 'doughnut',
+            data: {
+                labels: {!! json_encode($categoryLabels) !!},
+                datasets: [{
+                    data: {!! json_encode($categoryTotals) !!},
+                    backgroundColor: [
+                        'rgba(239, 68, 68, 0.7)',
+                        'rgba(249, 115, 22, 0.7)',
+                        'rgba(234, 179, 8, 0.7)',
+                        'rgba(139, 92, 246, 0.7)',
+                        'rgba(236, 72, 153, 0.7)',
+                        'rgba(20, 184, 166, 0.7)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+        @endif
     </script>
 </x-app-layout>

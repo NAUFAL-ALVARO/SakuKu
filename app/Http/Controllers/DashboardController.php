@@ -59,6 +59,17 @@ class DashboardController extends Controller
                 ->whereYear('tanggal', $month->year)
                 ->sum('jumlah');
         }
+            // Data untuk grafik donut: pengeluaran per kategori
+            $expenseByCategory = Transaction::where('user_id', $userId)
+                ->where('tipe', 'expense')
+                ->join('categories', 'transactions.category_id', '=', 'categories.id')
+                ->selectRaw('categories.nama_kategori as nama, SUM(transactions.jumlah) as total')
+                ->groupBy('categories.nama_kategori')
+                ->orderByDesc('total')
+                ->get();
+
+            $categoryLabels = $expenseByCategory->pluck('nama');
+            $categoryTotals = $expenseByCategory->pluck('total');
 
         $recentTransactions = Transaction::with('category')
             ->where('user_id', $userId)
@@ -70,7 +81,8 @@ class DashboardController extends Controller
             'totalIncome', 'totalExpense', 'saldo',
             'chartLabels', 'chartIncome', 'chartExpense',
             'recentTransactions',
-            'incomeChange', 'expenseChange'
+            'incomeChange', 'expenseChange',
+            'categoryLabels', 'categoryTotals'
         ));
     }
 }
