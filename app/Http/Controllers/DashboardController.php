@@ -60,8 +60,8 @@ class DashboardController extends Controller
                 ->sum('jumlah');
         }
             // Data untuk grafik donut: pengeluaran per kategori
-            $expenseByCategory = Transaction::where('user_id', $userId)
-                ->where('tipe', 'expense')
+            $expenseByCategory = Transaction::where('transactions.user_id', $userId)
+                ->where('transactions.tipe', 'expense')
                 ->join('categories', 'transactions.category_id', '=', 'categories.id')
                 ->selectRaw('categories.nama_kategori as nama, SUM(transactions.jumlah) as total')
                 ->groupBy('categories.nama_kategori')
