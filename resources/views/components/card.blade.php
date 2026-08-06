@@ -6,7 +6,7 @@
     };
 @endphp
 
-<div {{ $attributes->merge(['class' => "rounded-xl shadow-sm p-5 $variantClasses"]) }}>
+<div {{ $attributes->merge(['class' => "rounded-xl shadow-sm p-5 transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 $variantClasses"]) }}>
     @if($title)
         <div class="flex items-center justify-between mb-3">
             <h3 class="text-sm font-medium text-gray-500">{{ $title }}</h3>
