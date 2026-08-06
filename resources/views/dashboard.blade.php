@@ -17,21 +17,21 @@
         </div>
 
     <div class="grid grid-cols-3 gap-4">
-        <x-card title="Total Pemasukan" variant="income">
+        <x-card title="Total Pemasukan" variant="income" class="animate-fade-in" style="animation-delay: 0ms">
             <p class="text-2xl font-bold">Rp {{ number_format($totalIncome, 0, ',', '.') }}</p>
             <p class="text-xs mt-1 {{ $incomeChange >= 0 ? 'text-emerald-600' : 'text-rose-600' }}">
                 {{ $incomeChange >= 0 ? '↑' : '↓' }} {{ abs($incomeChange) }}% dari bulan lalu
             </p>
         </x-card>
 
-        <x-card title="Total Pengeluaran" variant="expense">
+        <x-card title="Total Pengeluaran" variant="expense" class="animate-fade-in" style="animation-delay: 100ms">
             <p class="text-2xl font-bold">Rp {{ number_format($totalExpense, 0, ',', '.') }}</p>
             <p class="text-xs mt-1 {{ $expenseChange <= 0 ? 'text-emerald-600' : 'text-rose-600' }}">
                 {{ $expenseChange >= 0 ? '↑' : '↓' }} {{ abs($expenseChange) }}% dari bulan lalu
             </p>
         </x-card>
 
-        <x-card title="Saldo" variant="default">
+        <x-card title="Saldo" variant="default" class="animate-fade-in" style="animation-delay: 200ms">
             <p class="text-2xl font-bold text-blue-600">Rp {{ number_format($saldo, 0, ',', '.') }}</p>
         </x-card>
     </div>
